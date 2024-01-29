@@ -13,19 +13,15 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class TestController {
 
-    private final LoadBalancerClient loadBalancerClient;
+    private final RestTemplate restTemplate;
 
-    public TestController(LoadBalancerClient loadBalancerClient) {
-        this.loadBalancerClient = loadBalancerClient;
+    public TestController(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping("/test")
     public String test() {
-        // 通过负载均衡选取一个实例
-        ServiceInstance serviceInstance = loadBalancerClient.choose("nacos-discovery-provider");
-        String url = serviceInstance.getUri() + "/hello?name=keroro";
-        RestTemplate restTemplate = new RestTemplate();
-        String res = restTemplate.getForObject(url, String.class);
-        return "Invoke: " + url + ", return: " + res;
+        String res = restTemplate.getForObject("http://nacos-discovery-provider/hello?name=keroro", String.class);
+        return "Result: " + res;
     }
 }
