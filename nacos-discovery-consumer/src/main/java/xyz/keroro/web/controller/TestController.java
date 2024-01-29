@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import xyz.keroro.web.client.NacosProviderClient;
 
 /**
  * @author wangpeng
@@ -19,9 +20,12 @@ public class TestController {
 
     private final WebClient.Builder webClientBuilder;
 
-    public TestController(RestTemplate restTemplate, WebClient.Builder webClientBuilder) {
+    private final NacosProviderClient nacosProviderClient;
+
+    public TestController(RestTemplate restTemplate, WebClient.Builder webClientBuilder, NacosProviderClient nacosProviderClient) {
         this.restTemplate = restTemplate;
         this.webClientBuilder = webClientBuilder;
+        this.nacosProviderClient = nacosProviderClient;
     }
 
     /**
@@ -45,5 +49,15 @@ public class TestController {
                 .uri("http://nacos-discovery-provider/hello?name=keroro")
                 .retrieve()
                 .bodyToMono(String.class);
+    }
+
+    /**
+     * 3. feign方式调用其他服务
+     * @return res
+     */
+    @GetMapping("/feignTest")
+    public String feignTest() {
+        String res = nacosProviderClient.hello("keroro");
+        return "Return: " + res;
     }
 }
