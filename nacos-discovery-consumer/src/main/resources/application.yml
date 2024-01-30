@@ -1,11 +1,14 @@
+server:
+  port: 9001
 spring:
   application:
     name: nacos-discovery-consumer
   cloud:
     nacos:
-      discovery:
-        server-addr: http://192.168.0.103:8848/
-        username: keroro
-        password: keroro
-server:
-  port: 9001
+      # 地址后面不能有/
+      server-addr: http://192.168.0.103:8848
+      username: keroro
+      password: keroro
+  config:
+    import:
+      - nacos:nacos-discovery-consumer.yml
