@@ -11,4 +11,8 @@ spring:
       password: keroro
   config:
     import:
+#      不写后缀默认为.properties
+#      - nacos:hhh
+#      可选配置、覆盖默认group、关闭动态刷新（开启之后虽然会接收到新的配置，但还是要配合@RefreshScope刷新的）
+#      - optional:nacos:test02.yml?group=group_02&refreshEnabled=false
       - nacos:nacos-discovery-consumer.yml
