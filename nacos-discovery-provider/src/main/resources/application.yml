@@ -7,5 +7,8 @@ spring:
         server-addr: http://192.168.0.105:8848/
         username: keroro
         password: keroro
+    sentinel:
+      transport:
+        dashboard: localhost:8080
 server:
   port: 8001
